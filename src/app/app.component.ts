@@ -1,12 +1,25 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { DogImageService } from './dog-image.service';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrls: ['./app.component.css'],
+  standalone: true,
+  imports: [MatCardModule]
 })
+
 export class AppComponent {
-  title = 'dog-image-randomizer';
+  dogImageUrl: string = '';
+
+  constructor(private dogImageService: DogImageService) {
+    this.loadRandomDogImage();
+  }
+
+  loadRandomDogImage(): void {
+    this.dogImageService.getRandomDogImage().subscribe(url => {
+      this.dogImageUrl = url;
+    });
+  }
 }
